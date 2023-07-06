@@ -7,8 +7,8 @@ import classes from "./SignupLogin.module.css";
 const SignupLogin = (props) => {
   const [isLogin, setIsLogin] = useState(true);
 
-  const switchHandler = (event) => {
-    setIsLogin(false);
+  const switchHandler = () => {
+     setIsLogin((prevState)=>!prevState);
   };
 
   return (
@@ -18,9 +18,8 @@ const SignupLogin = (props) => {
         {isLogin && <LoginForm />}
       </div>
       <div className={classes.switchCon}>
-        <p>
-          Don't have an account?<button onClick={switchHandler}>Sign Up</button>
-        </p>
+        {isLogin && <p>Don't have an account?<button onClick={switchHandler}>Sign Up</button></p>}
+        {!isLogin && <p>Already have an account?<button onClick={switchHandler}>Log In</button></p>}
       </div>
     </div>
   );
