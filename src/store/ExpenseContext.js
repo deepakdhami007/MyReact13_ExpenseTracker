@@ -7,6 +7,10 @@ const ExpenseProvider = props => {
   const [itemsArr, setItemsArr] = useState([]);
   const authCtx = useContext(AuthContext);
 
+  useEffect(() => {
+    setItemsArr([])
+  }, [authCtx.isLoggedIn])
+
   const restoreItems = async () => {
     const email = localStorage['userEmail'].replace(/[\.@]/g, "");
     console.log(email)
@@ -22,12 +26,19 @@ const ExpenseProvider = props => {
       alert(error)
     }
   };
+  
   useEffect(() => {
-    restoreItems();
-  },[]);
-  useEffect(() => {
-    restoreItems();
+    if(authCtx.userEmail){
+      restoreItems();
+    }
+      
   },[authCtx.userEmail]);
+  
+  useEffect(() => {
+    if(authCtx.isLoggedIn){
+      restoreItems();
+    }
+  },[authCtx.isLoggedIn]);
   
 
   const addItemHandler = (item) => {
