@@ -37,7 +37,7 @@ const LoginForm = (props) => {
       if (res.ok) {
         navigate("/profile/expense-tracker", { replace: true });
         authCtx.login(data.idToken, data.email);
-        console.log("successfullyLogged in");
+        console.log(data.email);
       } else {
         throw Error("Authentication Failed");
       }
