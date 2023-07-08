@@ -20,7 +20,7 @@ const UpdateProfileForm = (props) => {
 //   nameInputRef = props.user.displayName;
 
 
-  const clickUpdateHandler = async (event) => {
+    const clickUpdateHandler = async (event) => {
       event.preventDefault();
     const enteredName = nameInputRef.current.value;
     const enteredContact = contactInputRef.current.value;
