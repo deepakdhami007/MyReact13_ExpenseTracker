@@ -9,7 +9,7 @@ import ExpenseProvider from "./store/ExpenseContext";
 
 function App() {
   return (
-
+    <ExpenseProvider>
       <div className="App">
         <Routes>
           <Route path="/" element={<SignupLogin />} />
@@ -18,8 +18,8 @@ function App() {
             <Route index element={<Expense />} />
           </Route>
         </Routes>
-    </div>
-    
+      </div>
+    </ExpenseProvider>
   );
 }
 
