@@ -4,15 +4,19 @@ import ExpenseContext from "./expense-context";
 
 
 const AuthContextProvider = (props) => {
-  const [token, setToken] = useState(null);
-  const [userEmail, setUserEmail] = useState(null);
+  const intialToken = localStorage.getItem('user');
+  const intialUserEmail = localStorage.getItem('userEmail');
+  const [token, setToken] = useState(intialToken);
+  const [userEmail, setUserEmail] = useState(intialUserEmail);
+
+  
 
   const expCtx = useContext(ExpenseContext);
 
-    if (token == null && localStorage.length !== 0) {
-      setToken(localStorage["user"]);
-      setUserEmail(localStorage['userEmail'])
-    }
+    // if (token == null && localStorage.length !== 0) {
+    //   setToken(localStorage["user"]);
+    //   setUserEmail(localStorage['userEmail'])
+    // }
   const userLoggedIn = !!token;
 
   const loginHandler = (tokenId, email) => {
@@ -27,9 +31,14 @@ const AuthContextProvider = (props) => {
   const logoutHandler = () => {
     setToken(null);
     setUserEmail(null);
+    expCtx.items = [];
     localStorage.removeItem('user');
     localStorage.removeItem('userEmail');
   };
+
+  setTimeout(() => {
+    logoutHandler();
+  }, 5*60000);
   
 
   const authContext = {
