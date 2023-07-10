@@ -89,7 +89,7 @@ const Profile = (props) => {
           </div>
         </div>
       </section>
-      {isLocation && <UpdateProfileForm user={userData} />}
+      {isLocation && <UpdateProfileForm user={userData} update={updateVisibleHandler}/>}
     </Fragment>
   );
 };
