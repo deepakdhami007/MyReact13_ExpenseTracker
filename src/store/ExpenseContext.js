@@ -12,29 +12,29 @@ const ExpenseProvider = (props) => {
   //   setItemsArr([]);
   // }, [authCtx.userEmail]);
 
-  const restoreItems = async () => {
-    const email = authCtx.userEmail.replace(/[\.@]/g, "");
-    try {
-      const res = await axios.get(
-        `https://myreact-expense-tracker-default-rtdb.firebaseio.com/${email}/expenses.json`
-      );
+  // const restoreItems = async () => {
+  //   const email = authCtx.userEmail.replace(/[\.@]/g, "");
+  //   try {
+  //     const res = await axios.get(
+  //       `https://myreact-expense-tracker-default-rtdb.firebaseio.com/${email}/expenses.json`
+  //     );
 
-      const data = res.data;
-      if (data) {
-        const realData = Object.values(data).reverse();
-        // console.log(realData)
-        setItemsArr(realData);
-      }
-    } catch (error) {
-      alert(error);
-    }
-  };
+  //     const data = res.data;
+  //     if (data) {
+  //       const realData = Object.values(data).reverse();
+  //       console.log(realData)
+  //       setItemsArr(realData);
+  //     }
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    if(authCtx.userEmail!==null){
-      restoreItems();
-    }
-  }, [authCtx.userEmail]);
+  // useEffect(() => {
+  //   if(authCtx.userEmail!==null){
+  //     restoreItems();
+  //   }
+  // }, [authCtx.userEmail]);
 
   const addItemHandler = (item) => {
     setItemsArr([item, ...itemsArr]);
@@ -75,7 +75,7 @@ const ExpenseProvider = (props) => {
     addItem: addItemHandler,
     removeItem: removeItemHandler,
     editItem: editItemHandler,
-    onLogin: restoreItems,
+    // onLogin: restoreItems,
   };
 
   return (

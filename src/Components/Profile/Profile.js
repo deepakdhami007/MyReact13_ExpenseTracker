@@ -1,20 +1,20 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import {
-  Link,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
+import { authActions } from "../../store/auth-slice";
+import { expenseActions } from "../../store/expense-slice";
 import ExpenseForm from "../ExpenseTracker/ExpenseForm";
 
 import classes from "./Profile.module.css";
 import UpdateProfileForm from "./UpdateProfileForm";
 
 const Profile = (props) => {
-  const authCtx = useContext(AuthContext);
+  // const authCtx = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
+
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,7 +30,7 @@ const Profile = (props) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            idToken: authCtx.token,
+            idToken: auth.token
           }),
         }
       );
@@ -39,15 +39,16 @@ const Profile = (props) => {
     } catch (error) {
       alert(error);
     }
-    
   };
 
-  useEffect(() =>{
-    updateVisibleHandler()
-  }, [])
+  useEffect(() => {
+    updateVisibleHandler();
+  }, []);
 
   const clickLogoutHandler = () => {
-    authCtx.logout();
+    // authCtx.logout();
+    dispatch(authActions.logout());
+    dispatch(expenseActions.setItemsEmpty());
     navigate("/", { replace: true });
   };
 
@@ -70,18 +71,18 @@ const Profile = (props) => {
             </Button>
           </div>
           <span className={classes.incomplete}>
-              {!isLocation ? (
-                "Your Profile is incomplete. "
-              ) : (
-                <React.Fragment>
-                  Your profile <strong>x%</strong> completed.
-                </React.Fragment>
-              )}
-              <button onClick={() => navigate("/profile", { replace: true }) }>Complete now</button>
-            </span>
-          <div>
-            
-          </div>
+            {!isLocation ? (
+              "Your Profile is incomplete. "
+            ) : (
+              <React.Fragment>
+                Your profile <strong>x%</strong> completed.
+              </React.Fragment>
+            )}
+            <button onClick={() => navigate("/profile", { replace: true })}>
+              Complete now
+            </button>
+          </span>
+          <div></div>
           <div>
             <Button variant="danger" onClick={clickLogoutHandler}>
               Log out
@@ -89,7 +90,9 @@ const Profile = (props) => {
           </div>
         </div>
       </section>
-      {isLocation && <UpdateProfileForm user={userData} update={updateVisibleHandler}/>}
+      {isLocation && (
+        <UpdateProfileForm user={userData} update={updateVisibleHandler} />
+      )}
     </Fragment>
   );
 };

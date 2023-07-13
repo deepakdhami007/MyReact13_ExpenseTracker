@@ -8,7 +8,7 @@ const UpdateProfileForm = (props) => {
   let nameInputRef = useRef();
   const contactInputRef = useRef();
   const locationInputRef = useRef();
-  console.log(props.user)
+  // console.log(props.user)
   useEffect(()=> {
     if (props.user) {
         if(props.user.displayName){
@@ -17,8 +17,7 @@ const UpdateProfileForm = (props) => {
         emailInputRef.current.value = props.user.email;
       }
   },[props.user])
-//   nameInputRef = props.user.displayName;
-
+  // nameInputRef = props.user.displayName;
 
     const clickUpdateHandler = async (event) => {
     event.preventDefault();
