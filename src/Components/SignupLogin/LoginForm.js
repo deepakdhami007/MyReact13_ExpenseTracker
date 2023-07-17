@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,12 +18,30 @@ const LoginForm = (props) => {
   const auth = useSelector((state) => state.auth);
   const [isVerifyEmail, setIsVerifyEmail] = useState(false);
 
+  const logoutTimerRef = useRef();
+
+  useEffect(() => {
+    if (auth.token) {
+      startLogoutTimer();
+    }
+  }, [auth.token]);
+
+  const startLogoutTimer = () => {
+    clearTimeout(logoutTimerRef.current);
+    logoutTimerRef.current = setTimeout(() => {
+      handleLogout();
+    }, 5*60000); 
+  };
+
+  const handleLogout = () => {
+    clearTimeout(logoutTimerRef.current); 
+    dispatch(authActions.logout());
+    navigate("/");
+  };
+
   const submitLoginHandle = async (event) => {
     event.preventDefault();
-    setTimeout(() => {
-      dispatch(authActions.logout());
-      navigate("/", { replace: true });
-    }, 5 * 60000);
+    
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPass = passInputRef.current.value;
@@ -66,6 +84,7 @@ const LoginForm = (props) => {
           } else {
             setIsVerifyEmail(false);
             navigate("/profile/expense-tracker", { replace: true });
+            startLogoutTimer();
             // authCtx.login(data.idToken, data.email);
             dispatch(
               authActions.login({ tokenId: data.idToken, email: data.email })
