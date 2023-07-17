@@ -50,14 +50,12 @@ const Profile = (props) => {
 
   const clickLogoutHandler = () => {
     // authCtx.logout();
-    if(isDarkMode === true){
+    if (isDarkMode === true) {
       dispatch(themeActions.toggelTheme());
     }
     dispatch(authActions.logout());
     dispatch(expenseActions.setItemsEmpty());
     navigate("/", { replace: true });
-    
-    
   };
 
   const clickExpenseHandler = () => {
@@ -73,7 +71,14 @@ const Profile = (props) => {
       <section className={classes.proCon}>
         <div className={classes.header}>
           <div className={classes.headerDetail}>
-            <h6>Welcome to Expense tracker</h6>
+            <h4>Welcome to Expense tracker</h4>
+
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Unknown_person.jpg" />
+            <h5>
+              {userData !== null && userData.displayName !== undefined
+                ? userData.displayName
+                : "UnKnown"}
+            </h5>
             <Button
               variant="success"
               onClick={clickExpenseHandler}
@@ -82,6 +87,7 @@ const Profile = (props) => {
               Expense Tracker
             </Button>
           </div>
+
           <div className={classes.mode}>
             {auth.isPremium && (
               <button onClick={clickModeHandler}>
@@ -112,9 +118,11 @@ const Profile = (props) => {
           </div>
         </div>
       </section>
-      {isLocation && (
-        <UpdateProfileForm user={userData} update={updateVisibleHandler} />
-      )}
+      <section className={classes.sectionLower}>
+        {isLocation && (
+          <UpdateProfileForm user={userData} update={updateVisibleHandler} />
+        )}
+      </section>
     </Fragment>
   );
 };

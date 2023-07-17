@@ -110,7 +110,6 @@ const ExpenseList = (props) => {
       return csvRows.join("\n");
     };
     // console.log([generateCSV(expense.items)])
-  
     const csvContent = generateCSV(expense.items);
     const blob = new Blob([csvContent], { type: "text/csv" });
     const downloadLink = document.createElement("a");
@@ -125,16 +124,16 @@ const ExpenseList = (props) => {
       <div className={classes.container}>
         <h1>Expenses</h1>
         <div className={classes.totalAmt}>
-          <h3>Total expense</h3>
+          <h3>Total expense  <span> ₹{total}</span></h3>
           {total >= 10000 &&
             (!auth.isPremium ? (
               <Button variant="danger" onClick={clickActPremiumHandler}>
                 Activate Premium
               </Button>
             ) : (
-              <Button variant="warning" onClick={clickDownloadHandler}><FaCrown />Download</Button>
+              <Button variant="warning" onClick={clickDownloadHandler}><FaCrown />Download List</Button>
             ))}
-          <span>{total}</span>
+         
         </div>
         {total >= 10000 && (!auth.isPremium &&
           <p style={{ color: "red" }}>
@@ -148,7 +147,7 @@ const ExpenseList = (props) => {
             <div className={classes.date}>{i.date}</div>
             <h3 className={classes.category}>{i.category.toUpperCase()}</h3>
             <div className={classes.des}>{i.enteredDes}</div>
-            <div className={classes.Amt}>{i.enteredAmt}</div>
+            <div className={classes.Amt}>₹{i.enteredAmt}</div>
             <div className={classes.btn}>
               <button
                 className={classes.edit}

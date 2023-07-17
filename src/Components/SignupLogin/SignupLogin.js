@@ -12,7 +12,8 @@ const SignupLogin = (props) => {
   };
 
   return (
-    <div>
+    <div className={classes.conSignUp}>
+      <h1>Welcome To Expenes Tracker</h1>
       <div className={classes.auth}>
         {!isLogin && <SignupForm />}
         {isLogin && <LoginForm />}

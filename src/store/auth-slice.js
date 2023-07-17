@@ -28,6 +28,7 @@ const authSlice = createSlice({
       state.isPremium = false;
       localStorage.removeItem('isPremium');
     localStorage.removeItem('isDark');
+    
     },
     setIsPremium(state) {
         state.isPremium = true;
