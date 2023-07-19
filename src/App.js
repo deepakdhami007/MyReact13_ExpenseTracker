@@ -11,10 +11,11 @@ import { authActions } from "./store/auth-slice";
 import { themeActions } from "./store/theme-slice";
 
 function App() {
-  const isLoggedIn = useSelector((state) => state.auth.token !== null);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const isDarkMode = useSelector((state) => state.theme.isDark);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
 
   // useEffect(() => {
   //   dispatch(themeActions.toggelTheme());
@@ -33,10 +34,10 @@ function App() {
     >
       <Routes>
         <Route path="/" element={<SignupLogin />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/profile/expense-tracker" element={<RootLayout />}>
+        {isLoggedIn && <Route path="/profile" element={<Profile />} />}
+        {isLoggedIn && <Route path="/profile/expense-tracker" element={<RootLayout />}>
           <Route index element={<Expense />} />
-        </Route>
+        </Route>}
       </Routes>
     </div>
   );
