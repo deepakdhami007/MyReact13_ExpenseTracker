@@ -17,6 +17,7 @@ const LoginForm = (props) => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const [isVerifyEmail, setIsVerifyEmail] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const logoutTimerRef = useRef();
 
@@ -41,11 +42,10 @@ const LoginForm = (props) => {
 
   const submitLoginHandle = async (event) => {
     event.preventDefault();
-    
-
-    const enteredEmail = emailInputRef.current.value;
+    setLoading(true);
+     const enteredEmail = emailInputRef.current.value;
     const enteredPass = passInputRef.current.value;
-
+    
     try {
       const res = await fetch(
         "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDH0fL1swdhEjD-qHDswBtnpxxzfef3CTI",
@@ -108,6 +108,7 @@ const LoginForm = (props) => {
     } catch (error) {
       alert(error);
     }
+    setLoading(false)
   };
 
   const linkClickHandler = () => {
@@ -143,7 +144,7 @@ const LoginForm = (props) => {
               <Link onClick={linkClickHandler}>Forgot Password?</Link>
             </Form.Group>
             <Button variant="primary" type="submit" onClick={submitLoginHandle}>
-              Log in
+              {!loading ? "Log in" : "Loading" }
             </Button>
           </Form>
         </div>
