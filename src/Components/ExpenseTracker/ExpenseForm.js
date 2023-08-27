@@ -50,7 +50,7 @@ const ExpenseForm = () => {
       const email = auth.userEmail.replace(/[\.@]/g, "");
       try {
         const res = await axios.get(
-          `https://myreact-expense-tracker-default-rtdb.firebaseio.com/${email}/expenses.json`
+          `https://expensetracker-80891-default-rtdb.firebaseio.com//${email}/expenses.json`
         );
 
         const data = res.data;
@@ -59,7 +59,7 @@ const ExpenseForm = () => {
         );
         try {
           const resDlt = await axios.delete(
-            `https://myreact-expense-tracker-default-rtdb.firebaseio.com/${email}/expenses/${Id}.json`
+            `https://expensetracker-80891-default-rtdb.firebaseio.com/${email}/expenses/${Id}.json`
           );
         } catch (error) {
           alert(error);
@@ -82,7 +82,7 @@ const ExpenseForm = () => {
     const email = auth.userEmail.replace(/[\.@]/g, "");
     try {
       const res = await axios.post(
-        `https://myreact-expense-tracker-default-rtdb.firebaseio.com/${email}/expenses.json`,
+        `https://expensetracker-80891-default-rtdb.firebaseio.com/${email}/expenses.json`,
         expDetail
       );
     } catch (error) {

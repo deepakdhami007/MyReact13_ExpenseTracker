@@ -26,7 +26,7 @@ const Profile = (props) => {
   const updateVisibleHandler = async () => {
     try {
       const res = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDH0fL1swdhEjD-qHDswBtnpxxzfef3CTI",
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBDr8c9rOng12FZG4bK7kU6HO9KJro1DNU",
         {
           method: "POST",
           headers: {

@@ -26,7 +26,7 @@ const UpdateProfileForm = (props) => {
     const enteredLocation = locationInputRef.current.value;
     try {
       const res = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDH0fL1swdhEjD-qHDswBtnpxxzfef3CTI",
+        "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyBDr8c9rOng12FZG4bK7kU6HO9KJro1DNU",
         {
           method: "POST",
           body: JSON.stringify({

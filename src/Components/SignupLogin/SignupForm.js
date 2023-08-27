@@ -24,7 +24,7 @@ const SignupForm = (props) => {
     }
     try {
       const res = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDH0fL1swdhEjD-qHDswBtnpxxzfef3CTI",
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBDr8c9rOng12FZG4bK7kU6HO9KJro1DNU",
         {
           method: "POST",
           body: JSON.stringify({
@@ -43,7 +43,7 @@ const SignupForm = (props) => {
       if (res.ok) {
         try {
           const response = await fetch(
-            "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDH0fL1swdhEjD-qHDswBtnpxxzfef3CTI",
+            "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBDr8c9rOng12FZG4bK7kU6HO9KJro1DNU",
             {
               method: "POST",
               body: JSON.stringify({

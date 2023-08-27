@@ -30,14 +30,14 @@ const ExpenseList = (props) => {
     const email = auth.userEmail.replace(/[\.@]/g, "");
     try {
       const res = await axios.get(
-        `https://myreact-expense-tracker-default-rtdb.firebaseio.com/${email}/expenses.json`
+        `https://expensetracker-80891-default-rtdb.firebaseio.com/${email}/expenses.json`
       );
 
       const data = res.data;
       const Id = Object.keys(data).find((eleId) => data[eleId].id === item.id);
       try {
         const res = await axios.delete(
-          `https://myreact-expense-tracker-default-rtdb.firebaseio.com/${email}/expenses/${Id}.json`
+          `https://expensetracker-80891-default-rtdb.firebaseio.com/${email}/expenses/${Id}.json`
         );
       } catch (error) {
         alert(error);
@@ -51,7 +51,7 @@ const ExpenseList = (props) => {
     const email = auth.userEmail.replace(/[\.@]/g, "");
     try {
       const res = await axios.get(
-        `https://myreact-expense-tracker-default-rtdb.firebaseio.com/${email}/expenses.json`
+        `https://expensetracker-80891-default-rtdb.firebaseio.com/${email}/expenses.json`
       );
 
       const data = res.data;
@@ -82,7 +82,7 @@ const ExpenseList = (props) => {
     const email = auth.userEmail.replace(/[\.@]/g, "");
     try {
       const res = await axios.post(
-        `https://myreact-expense-tracker-default-rtdb.firebaseio.com/${email}/userDetail.json`, {isPremium: true}
+        `https://expensetracker-80891-default-rtdb.firebaseio.com/${email}/userDetail.json`, {isPremium: true}
       );
     } catch (error){ 
       alert(error)

@@ -48,7 +48,7 @@ const LoginForm = (props) => {
     
     try {
       const res = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDH0fL1swdhEjD-qHDswBtnpxxzfef3CTI",
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBDr8c9rOng12FZG4bK7kU6HO9KJro1DNU",
         {
           method: "POST",
           body: JSON.stringify({
@@ -65,7 +65,7 @@ const LoginForm = (props) => {
       if (res.ok) {
         try {
           const response = await fetch(
-            "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDH0fL1swdhEjD-qHDswBtnpxxzfef3CTI",
+            "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBDr8c9rOng12FZG4bK7kU6HO9KJro1DNU",
             {
               method: "POST",
               body: JSON.stringify({
@@ -91,7 +91,7 @@ const LoginForm = (props) => {
             );
             const email = enteredEmail.replace(/[\.@]/g, "");
             const modeRes = await axios.get(
-              `https://myreact-expense-tracker-default-rtdb.firebaseio.com/${email}/userDetail.json`
+              `https://expensetracker-80891-default-rtdb.firebaseio.com/${email}/userDetail.json`
             );
             if (modeRes.data) {
               dispatch(themeActions.toggelTheme());
