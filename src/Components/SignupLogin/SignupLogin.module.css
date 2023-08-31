@@ -18,18 +18,3 @@
   color: blue;
   padding: 0;
 }
-
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  /* background-image: url('path/to/your/image.jpg'); */
-  background-size: cover;
-  background-position: center;
-}
-
-.container h1 {
-  font-size: 36px;
-  text-align: center;
-  margin-bottom: 20px;
-}

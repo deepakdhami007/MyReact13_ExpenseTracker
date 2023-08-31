@@ -2,7 +2,30 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
+// const dltItem = createAsyncThunk("expenses/dltItem", async (itemId) => {
+//   const auth = useSelector((state) => state.auth);
+//   const email = auth.userEmail.replace(/[\.@]/g, "");
+//   console.log(email)
+//   try {
+//     const res = await axios.get(
+//       `https://expensetracker-80891-default-rtdb.firebaseio.com/${email}/expenses.json`
+//     );
 
+//     const data = res.data;
+//     // console.log(data);
+//     const Id = Object.keys(data).find((eleId) => data[eleId].id === itemId);
+//     try {
+//       const res = await axios.delete(
+//         `https://expensetracker-80891-default-rtdb.firebaseio.com/${email}/expenses/${Id}.json`
+//       );
+//       console.log('ok')
+//     } catch (error) {
+//       alert(error);
+//     }
+//   } catch (error) {
+//     alert(error);
+//   }
+// });
 
 const initialState = {
   items: [],
@@ -38,6 +61,7 @@ const expenseSlice = createSlice({
     
   },
 });
+console.log(initialState.items);
 
 export const expenseActions = expenseSlice.actions;
 export default expenseSlice.reducer;

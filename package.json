@@ -14,9 +14,10 @@
     "react-dom": "^18.2.0",
     "react-icon": "^1.0.0",
     "react-icons": "^4.10.1",
-    "react-redux": "^8.1.1",
+    "react-redux": "^8.1.2",
     "react-router-dom": "^6.14.1",
     "react-scripts": "5.0.1",
+    "redux": "^4.2.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -47,10 +48,7 @@
     "@babel/preset-env": "^7.22.9",
     "babel-jest": "^29.6.1"
   },
-  
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    }
-  
-  
+  "transform": {
+    "^.+\\.jsx?$": "babel-jest"
+  }
 }

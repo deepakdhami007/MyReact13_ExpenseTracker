@@ -10,4 +10,3 @@ const ExpenseContext = React.createContext({
 });
 
 export default ExpenseContext;
-
