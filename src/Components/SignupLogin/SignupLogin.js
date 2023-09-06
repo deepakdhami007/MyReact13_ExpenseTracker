@@ -8,18 +8,29 @@ const SignupLogin = (props) => {
   const [isLogin, setIsLogin] = useState(true);
 
   const switchHandler = () => {
-     setIsLogin((prevState)=>!prevState);
+    setIsLogin((prevState) => !prevState);
   };
 
   return (
-    <div>
+    <div className={classes.container}>
+      <h1>Welcome To Expenes Tracker</h1>
       <div className={classes.auth}>
         {!isLogin && <SignupForm />}
         {isLogin && <LoginForm />}
-      </div>
-      <div className={classes.switchCon}>
-        {isLogin && <p>Don't have an account?<button onClick={switchHandler}>Sign Up</button></p>}
-        {!isLogin && <p>Already have an account?<button onClick={switchHandler}>Log In</button></p>}
+        <div className={classes.switchCon}>
+          {isLogin && (
+            <p>
+              Don't have an account?
+              <button onClick={switchHandler}>Sign Up</button>
+            </p>
+          )}
+          {!isLogin && (
+            <p>
+              Already have an account?
+              <button onClick={switchHandler}>Log In</button>
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

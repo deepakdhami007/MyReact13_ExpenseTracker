@@ -1,9 +1,7 @@
 import axios from "axios";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-// import AuthContext from "../../store/auth-context";
-// import ExpenseContext from "../../store/ExpenseContext";
 import AuthContext from "../../store/context/auth-context";
 import { expenseActions } from "../../store/expense-slice";
 
@@ -20,7 +18,9 @@ const ExpenseForm = () => {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const expense = useSelector((state) => state.expenseStore);
-  // console.log(expense.editItems);
+
+  const [isInputValid, setIsInputValid] = useState(true);
+
   useEffect(() => {
     if (expense.editItems !== null) {
       amtInputRef.current.value = expense.editItems.enteredAmt;
@@ -33,10 +33,42 @@ const ExpenseForm = () => {
 
   const clickAddHandler = async (e) => {
     e.preventDefault();
+    if (
+      amtInputRef.current.value === "" ||
+      desInputRef.current.value === "" ||
+      dateRef.current.value === ""
+    ) {
+      setIsInputValid(false);
+      return;
+    }
+
+    setIsInputValid(true);
+
     if (expense.editItems !== null) {
       // expCtx.removeItem(expCtx.editItems);
-      dispatch(expenseActions.removeItem(expense.editItems));
-      // expense.editItems = null;
+      console.log(expense.editItems);
+      const email = auth.userEmail.replace(/[\.@]/g, "");
+      try {
+        const res = await axios.get(
+          `https://expensetracker-80891-default-rtdb.firebaseio.com/${email}/expenses.json`
+        );
+
+        const data = res.data;
+        const Id = Object.keys(data).find(
+          (eleId) => data[eleId].id === expense.editItems.id
+        );
+        try {
+          const resDlt = await axios.delete(
+            `https://expensetracker-80891-default-rtdb.firebaseio.com/${email}/expenses/${Id}.json`
+          );
+        } catch (error) {
+          alert(error);
+        }
+      } catch (error) {
+        alert(error);
+      }
+
+      // dispatch(expenseActions.removeItem(expense.editItems));
       dispatch(expenseActions.setEditItemsNull());
     }
     const expDetail = {
@@ -54,7 +86,7 @@ const ExpenseForm = () => {
         expDetail
       );
     } catch (error) {
-      alert(error);
+      alert(error); 
     }
     // expCtx.addItem(expDetail);
     dispatch(expenseActions.addItem(expDetail));
@@ -64,6 +96,7 @@ const ExpenseForm = () => {
   return (
     <section className={classes.expenseCon}>
       <form ref={formRef}>
+        {!isInputValid && <p style={{color: 'red'}}>*Please fill all inputs.</p>}
         <section>
           <div className={classes.amt}>
             <label htmlFor="Amount">Amount</label>

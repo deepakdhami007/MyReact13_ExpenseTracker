@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from "react";
 import { Button, Form } from "react-bootstrap";
-import AuthContext from "../../store/auth-context";
+import AuthContext from "../../store/context/auth-context";
 
 import classes from "./LoginForm.module.css";
 

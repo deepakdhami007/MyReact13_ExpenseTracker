@@ -38,7 +38,7 @@ const SignupForm = (props) => {
         }
       );
       const data = await res.json();
-      //   console.log("Successfully signed up");
+        console.log(data);
       //   alert("Click Ok for email verification.");
       if (res.ok) {
         try {
@@ -96,7 +96,7 @@ const SignupForm = (props) => {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Password"
+            placeholder="Password(Not less than 6)"
             ref={passInputRef}
             required
           />

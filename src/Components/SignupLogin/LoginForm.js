@@ -1,13 +1,12 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-// import AuthContext from "../../store/auth-context"; 
 import ForgotPassForm from "./ForgotPassForm";
 import classes from "./LoginForm.module.css";
+import axios from "axios";
 import { authActions } from "../../store/auth-slice";
 import { themeActions } from "../../store/theme-slice";
-import axios from "axios";
 
 const LoginForm = (props) => {
   const emailInputRef = useRef();
@@ -17,11 +16,36 @@ const LoginForm = (props) => {
   const [forgotVisible, setForgotVisible] = useState(false);
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
+  const [isVerifyEmail, setIsVerifyEmail] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const logoutTimerRef = useRef();
+
+  useEffect(() => {
+    if (auth.token) {
+      startLogoutTimer();
+    }
+  }, [auth.token]);
+
+  const startLogoutTimer = () => {
+    clearTimeout(logoutTimerRef.current);
+    logoutTimerRef.current = setTimeout(() => {
+      handleLogout();
+    }, 5*60000); 
+  };
+
+  const handleLogout = () => {
+    clearTimeout(logoutTimerRef.current); 
+    dispatch(authActions.logout());
+    navigate("/");
+  };
+
   const submitLoginHandle = async (event) => {
     event.preventDefault();
-    const enteredEmail = emailInputRef.current.value;
+    setLoading(true);
+     const enteredEmail = emailInputRef.current.value;
     const enteredPass = passInputRef.current.value;
-
+    
     try {
       const res = await fetch(
         "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBDr8c9rOng12FZG4bK7kU6HO9KJro1DNU",
@@ -38,28 +62,53 @@ const LoginForm = (props) => {
         }
       );
       const data = await res.json();
-
       if (res.ok) {
-        navigate("/profile/expense-tracker", { replace: true });
-        // authCtx.login(data.idToken, data.email);
-        dispatch(
-          authActions.login({ tokenId: data.idToken, email: data.email })
-        );
-        const email = enteredEmail.replace(/[\.@]/g, "");
-          const modeRes = await axios.get(
-            `https://expensetracker-80891-default-rtdb.firebaseio.com/${email}/userDetail.json`
+        try {
+          const response = await fetch(
+            "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBDr8c9rOng12FZG4bK7kU6HO9KJro1DNU",
+            {
+              method: "POST",
+              body: JSON.stringify({
+                idToken: data.idToken,
+              }),
+              headers: {
+                "content-type": "application/json",
+              },
+            }
           );
-          if(modeRes.data){
-            dispatch(themeActions.toggelTheme());
-            dispatch(authActions.setIsPremium());
-            localStorage.setItem('isPremium', true);
+          const userData = await response.json();
+          console.log(userData.users[0]);
+          if (!userData.users[0].emailVerified) {
+            setIsVerifyEmail(true);
+            return;
+          } else {
+            setIsVerifyEmail(false);
+            navigate("/profile/expense-tracker", { replace: true });
+            startLogoutTimer();
+            // authCtx.login(data.idToken, data.email);
+            dispatch(
+              authActions.login({ tokenId: data.idToken, email: data.email })
+            );
+            const email = enteredEmail.replace(/[\.@]/g, "");
+            const modeRes = await axios.get(
+              `https://expensetracker-80891-default-rtdb.firebaseio.com/${email}/userDetail.json`
+            );
+            if (modeRes.data) {
+              dispatch(themeActions.toggelTheme());
+              dispatch(authActions.setIsPremium());
+              localStorage.setItem("isPremium", true);
+            }
           }
+        } catch (error) {
+          alert(error);
+        }
       } else {
         throw Error("Authentication Failed");
       }
     } catch (error) {
       alert(error);
     }
+    setLoading(false)
   };
 
   const linkClickHandler = () => {
@@ -73,6 +122,7 @@ const LoginForm = (props) => {
       ) : (
         <div className={classes.login}>
           <h1>Log In</h1>
+          {isVerifyEmail && <p style={{color: 'red'}}>Please verify email before login.</p>}
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Control
@@ -94,7 +144,7 @@ const LoginForm = (props) => {
               <Link onClick={linkClickHandler}>Forgot Password?</Link>
             </Form.Group>
             <Button variant="primary" type="submit" onClick={submitLoginHandle}>
-              Log in
+              {!loading ? "Log in" : "Loading" }
             </Button>
           </Form>
         </div>
